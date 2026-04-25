@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday PANO ❤️</title>
+
+<style>
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  text-align: center;
+  font-family: Arial;
+  overflow: hidden;
+}
+
+/* Lock */
+#lock {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* Main */
+#main { display: none; }
+
+h1 {
+  color: #ff4da6;
+  text-shadow: 0 0 25px pink;
+  animation: beat 1s infinite;
+}
+
+/* Heartbeat */
+@keyframes beat {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.1);}
+  100% {transform: scale(1);}
+}
+
+/* Image */
+#slide {
+  width: 270px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 0 40px pink;
+}
+
+/* Button */
+button {
+  padding: 12px 25px;
+  background: #ff0066;
+  border: none;
+  color: white;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+/* Letter */
+#letter {
+  display: none;
+  color: pink;
+  font-size: 20px;
+  margin: 20px;
+}
+
+/* Popup */
+#popup {
+  display: none;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  padding: 30px;
+  border: 2px solid pink;
+  border-radius: 20px;
+  box-shadow: 0 0 30px pink;
+}
+
+/* Secret */
+#secret {
+  display: none;
+  position: fixed;
+  top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  background:black;
+  padding:30px;
+  border-radius:20px;
+  border:2px solid pink;
+  box-shadow:0 0 30px pink;
+}
+
+/* End screen */
+#endScreen {
+  display: none;
+  position: fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  color:pink;
+  font-size:30px;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+/* Hearts */
+.heart {
+  position: absolute;
+  color: red;
+  animation: float 6s linear infinite;
+}
+@keyframes float {
+  0% {transform: translateY(100vh);}
+  100% {transform: translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOCK -->
+<div id="lock">
+  <h2>Only for PANO 💖</h2>
+  <input type="password" id="pass">
+  <br><br>
+  <button onclick="unlock()">Enter</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <h1>Happy Birthday PANO ❤️🎂</h1>
+
+  <p id="typing"></p>
+
+  <img id="slide" src="photo1.jpg">
+
+  <br>
+
+  <button onclick="playMusic()">Play Music 🎵</button>
+  <button onclick="showLetter()">Read My Heart 💌</button>
+
+  <div id="letter">
+    PANO ❤️ <br><br>
+    Tujha smile baghitla ki sagla world perfect vatata 😘  
+    Tujhya sobat aslela pratyek second mala treasure sarkha ahe 💖  
+    Tu majha love nahi… tu majha life ahes ❤️🔥  
+    I LOVE YOU FOREVER PANO 💕
+  </div>
+</div>
+
+<!-- POPUP -->
+<div id="popup">I LOVE YOU PANO ❤️</div>
+
+<!-- SECRET -->
+<div id="secret">You are my forever PANO ❤️</div>
+
+<!-- END SCREEN -->
+<div id="endScreen">
+  Forever Yours ❤️<br>PANO 💖
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// Unlock
+function unlock() {
+  if (pass.value === "PANO123") {
+    lock.style.display = "none";
+    main.style.display = "block";
+    typeText();
+    hearts();
+    slideshow();
+    popupShow();
+    playMusic();
+  } else alert("Wrong password 😢");
+}
+
+// Typing
+let text = "You + Me = Forever ❤️✨";
+let i = 0;
+function typeText() {
+  if (i < text.length) {
+    typing.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeText, 50);
+  }
+}
+
+// Letter
+function showLetter() {
+  letter.style.display = "block";
+}
+
+// Music Fade
+function playMusic() {
+  let music = document.getElementById("music");
+  music.volume = 0;
+  music.play();
+
+  let vol = 0;
+  let fade = setInterval(() => {
+    if (vol < 1) {
+      vol += 0.05;
+      music.volume = vol;
+    } else clearInterval(fade);
+  }, 200);
+}
+
+// Hearts
+function hearts() {
+  setInterval(() => {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "❤️";
+    h.style.left = Math.random()*100 + "vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+  }, 250);
+}
+
+// Slideshow
+let photos = ["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg"];
+let index = 0;
+function slideshow() {
+  setInterval(() => {
+    index = (index + 1) % photos.length;
+    slide.src = photos[index];
+  }, 2500);
+}
+
+// Popup
+function popupShow() {
+  setTimeout(() => {
+    popup.style.display = "block";
+    setTimeout(()=>popup.style.display="none",3000);
+  }, 2000);
+}
+
+// Double tap secret
+let lastTap = 0;
+document.addEventListener("touchend", function() {
+  let now = new Date().getTime();
+  if (now - lastTap < 300) {
+    secret.style.display = "block";
+    setTimeout(()=>secret.style.display="none",3000);
+  }
+  lastTap = now;
+});
+
+// Desktop double click
+document.addEventListener("dblclick", function() {
+  secret.style.display = "block";
+  setTimeout(()=>secret.style.display="none",3000);
+});
+
+// End screen
+setTimeout(() => {
+  main.style.display = "none";
+  endScreen.style.display = "flex";
+}, 30000);
+
+</script>
+
+</body>
+</html>
